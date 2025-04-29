@@ -1,0 +1,131 @@
+/* Navbar Styles */
+.Navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  height: 80px;
+  padding: 0 40px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.Logo img {
+  width: 50px;
+}
+
+.List {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  /* display: inline-block; */
+  transition: transform 0.2s ease;
+}
+
+.List li {
+  margin-right: 20px;
+}
+
+.List a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* Icon Color Styles */
+.List i {
+  font-size: 20px; /* Adjust size as needed */
+  color: #333; /* Default icon color */
+  transition: color 0.3s ease;
+}
+
+.List a:hover i {
+  color: #007bff; /* Icon color on hover */
+}
+
+.List a:hover {
+  color: #007bff;
+}
+
+/* Coin Box Styles */
+.coin-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  padding: 0px 14px;
+  border-radius: 20px;
+  font-weight: 500;
+  color: #333;
+  margin-left: 0px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  border: 2px solid black;
+}
+
+.coin-box:hover {
+  background-color: #ffeaa7;
+  color: #111;
+  border-color: #f39c12;
+}
+
+/* Coin Icon Styles */
+.coin-icon {
+  color: gold !important;
+  margin-right: 6px;
+  font-size: 20px;
+}
+
+/* Profile Dropdown Styles */
+.profile {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 180px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-item {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-item i {
+  margin-right: 10px;
+}
+
+/* Login Link */
+.login-link {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 16px;
+}
