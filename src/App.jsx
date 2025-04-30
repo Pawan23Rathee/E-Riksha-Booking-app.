@@ -7,14 +7,17 @@ import LoginPage from './Pages/LoginPage';
 import SignUpPage from './Pages/SignUpPage';
 import ProtectedRoute from './Components/ProtectedRoute';
 import HomePage from './Pages/HomePage';
+import MapPage from './Pages/MapPage'; // ✅ Import MapPage
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <Router>
-      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />  {/* Pass state to Navbar */}
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
+
+        
         <Route path="/" element={<HomePage />} />
         <Route 
           path="/profile" 
@@ -24,8 +27,10 @@ function App() {
           path="/points" 
           element={<ProtectedRoute isLoggedIn={isLoggedIn}><PointsPage /></ProtectedRoute>} 
         />
+        <Route path="/map" element={<MapPage />} /> {/* ✅ Add map route here */}
         <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/signup" element={<SignUpPage />} />
+        
       </Routes>
     </Router>
   );
