@@ -27,7 +27,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
       <nav className="nav">
         <div className="Navbar">
           <div className="Logo">
-            <img src="/Logo.jpeg" alt="Logo" />
+            <img src="/green (2).png" alt="Logo" />
           </div>
 
           <ul className="List">
