@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Navbar.css';
-import { FaCoins } from 'react-icons/fa';
-
+import { FaCoins, FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   const [profilePic, setProfilePic] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setMenuOpen(false);
+    setDropdownOpen(false);
   };
 
   const handleProfilePicUpload = (event) => {
@@ -30,52 +33,56 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
             <img src="/green (2).png" alt="Logo" />
           </div>
 
-          <ul className="List">
-            <li>
+          <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <FaTimes color="white" size={22} /> : <FaBars color="white" size={22} />}
+          </div>
+
+          <ul className={`List ${menuOpen ? 'active' : ''}`}>
+            <li onClick={() => setMenuOpen(false)}>
               <NavLink to="/" className={({ isActive }) => (isActive ? 'active-link' : '')}>
                 Home
               </NavLink>
             </li>
-            <li>
+            <li onClick={() => setMenuOpen(false)}>
               <NavLink to="/history" className={({ isActive }) => (isActive ? 'active-link' : '')}>
                 History
               </NavLink>
             </li>
-            <li>
+            <li onClick={() => setMenuOpen(false)}>
               <NavLink to="/contact" className={({ isActive }) => (isActive ? 'active-link' : '')}>
                 Contact
               </NavLink>
             </li>
-            {/* Add Map Page Link */}
-            <li>
+            <li onClick={() => setMenuOpen(false)}>
               <NavLink to="/map" className={({ isActive }) => (isActive ? 'active-link' : '')}>
                 Map
               </NavLink>
             </li>
 
-            <li className="coin-box" title="You have coins">
+            <div className="coin-box" title="You have coins">
               <FaCoins className="coin-icon" />
               <span>10</span>
-            </li>
+            </div>
 
             {isLoggedIn ? (
-              <div className="profile">
-                <img 
-                  className="profile-img" 
-                  src={profilePic || "/default-profile.png"} 
-                  alt="Profile" 
-                  onClick={() => document.getElementById('profilePicInput').click()}
+              <div className="profile" onClick={() => setDropdownOpen(!dropdownOpen)}>
+                <img
+                  className="profile-img"
+                  src={profilePic || "/default-profile.png"}
+                  alt="Profile"
                 />
-                <div className="dropdown-menu">
-                  <NavLink to="/profile" className="dropdown-item">Profile</NavLink>
-                  <NavLink to="/settings" className="dropdown-item">Settings</NavLink>
-                  <button onClick={handleLogout} className="dropdown-item">Logout</button>
-                </div>
+                {dropdownOpen && (
+                  <div className="dropdown-menu">
+                    <NavLink to="/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>Profile</NavLink>
+                    <NavLink to="/settings" className="dropdown-item" onClick={() => setDropdownOpen(false)}>Settings</NavLink>
+                    <button onClick={handleLogout} className="dropdown-item">Logout</button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="auth-buttons">
-                <NavLink to="/login" className="login-link">Login</NavLink>
-                <NavLink to="/signup" className="signup-link">Sign Up</NavLink>
+                <NavLink to="/login" className="login-link" onClick={() => setMenuOpen(false)}>Login</NavLink>
+                <NavLink to="/signup" className="signup-link" onClick={() => setMenuOpen(false)}>Sign Up</NavLink>
               </div>
             )}
           </ul>
@@ -83,8 +90,8 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
       </nav>
 
       {isLoggedIn && (
-        <input 
-          type="file" 
+        <input
+          type="file"
           accept="image/*"
           onChange={handleProfilePicUpload}
           style={{ display: 'none' }}
