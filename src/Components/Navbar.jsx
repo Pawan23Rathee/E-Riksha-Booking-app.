@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Navbar.css';
 import { FaCoins, FaBars, FaTimes } from 'react-icons/fa';
@@ -8,10 +8,19 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  useEffect(() => {
+    const savedPic = localStorage.getItem('profilePic');
+    if (savedPic) {
+      setProfilePic(savedPic);
+    }
+  }, []);
+
   const handleLogout = () => {
     setIsLoggedIn(false);
     setMenuOpen(false);
     setDropdownOpen(false);
+    localStorage.removeItem('profilePic');
+    setProfilePic(null);
   };
 
   const handleProfilePicUpload = (event) => {
@@ -20,6 +29,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfilePic(reader.result);
+        localStorage.setItem('profilePic', reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -70,6 +80,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                   className="profile-img"
                   src={profilePic || "/default-profile.png"}
                   alt="Profile"
+                  onClick={() => document.getElementById('profilePicInput').click()}
                 />
                 {dropdownOpen && (
                   <div className="dropdown-menu">
