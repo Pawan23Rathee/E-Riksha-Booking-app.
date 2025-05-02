@@ -1,9 +1,6 @@
-
-
 import React from "react";
 
-const Homepage = () => 
-
+const Homepage = () => {
   return (
     <section className="bg-gradient-to-r from-white to-green-100 min-h-screen px-4 sm:px-6 md:px-12 flex items-center">
       <div className="max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-10 w-full">
@@ -24,10 +21,7 @@ const Homepage = () =>
               Book
             </button>
 
-            <button className=" bg-green-500 border border-white px-6 py-3 rounded-xl font-semibold hover:bg-green-600 hover:text-black-600 transition">
-
             <button className="border border-green-600 text-green-600 px-6 py-3 rounded-xl font-semibold hover:bg-green-600 hover:text-white transition">
-
               Learn More
             </button>
           </div>

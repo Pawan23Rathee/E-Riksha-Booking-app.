@@ -23,7 +23,6 @@ export default function ContactSection() {
     e.preventDefault();
     console.log("Form submitted:", formData);
     setIsSubmitted(true);
-    // Reset form if you want
     setFormData({
       firstName: "",
       lastName: "",
@@ -31,7 +30,6 @@ export default function ContactSection() {
       email: "",
       message: "",
     });
-    // You can also add actual submission logic here (like API call)
   };
 
   return (
@@ -43,30 +41,80 @@ export default function ContactSection() {
           alt="Contact"
           style={{ width: "100%", height: "auto", borderRadius: "12px" }}
         />
-        <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginTop: "1rem" }}>
-          <button style={{ padding: "2.5rem 1rem" }}>📞 Call Us</button>
-          <button style={{ padding: "0.5rem 1rem" }}>💬 Chat</button>
-        </div>
+        <div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+    marginTop: "1rem",
+    padding: "1rem",
+    // border: "1px solid green", // reduced border thickness
+    borderRadius: "12px",
+    alignItems: "stretch",
+    width: "80%",
+     // make buttons same width
+  }}
+>
+  <button
+    style={{
+      padding: "0.75rem 1rem",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "0.5rem",
+      borderRadius: "6px",
+      border: "1px solid green",
+      cursor: "pointer",
+      backgroundColor: "#f0f0f0",
+      width: "50%",
+      marginLeft:"100px", // make button full width of container
+    }}
+  >
+    📞 Call Us: +1 234 567 890
+  </button>
+  <button
+    style={{
+      padding: "0.75rem 1rem",
+      borderRadius: "6px",
+      border: "1px solid green",
+      cursor: "pointer",
+      marginLeft:"100px", // make button full width of container
+      backgroundColor: "#f0f0f0",
+      width: "50%", // same width as above
+    }}
+  >
+    💬 Chat
+  </button>
+</div>
+
       </div>
 
       {/* Right Side - Contact Form */}
       <div style={{ flex: 1, minWidth: "300px" }}>
         {isSubmitted ? (
-          <div style={{ padding: "2rem", border: "1px solid #ccc", borderRadius: "12px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", textAlign: "center" }}>
+          <div
+            style={{
+              padding: "2rem",
+              border: "1px solid #ccc",
+              borderRadius: "12px",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              textAlign: "center",
+            }}
+          >
             <h2>Thank You!</h2>
             <p>Your message has been sent successfully.</p>
           </div>
         ) : (
-          <form 
-            onSubmit={handleSubmit} 
-            style={{ 
-              display: "flex", 
-              flexDirection: "column", 
-              gap: "1rem", 
-              padding: "2rem", 
-              border: "1px solid #ccc", 
-              borderRadius: "12px", 
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
+          <form
+            onSubmit={handleSubmit}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              padding: "2rem",
+              border: "1px solid #ccc",
+              borderRadius: "12px",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
             }}
           >
             <div style={{ display: "flex", gap: "1rem" }}>
@@ -77,7 +125,12 @@ export default function ContactSection() {
                 value={formData.firstName}
                 onChange={handleChange}
                 required
-                style={{ flex: 1, padding: "0.5rem", borderRadius: "6px", border: "1px solid #ccc" }}
+                style={{
+                  flex: 1,
+                  padding: "0.5rem",
+                  borderRadius: "6px",
+                  border: "1px solid #ccc",
+                }}
               />
               <input
                 type="text"
@@ -86,7 +139,12 @@ export default function ContactSection() {
                 value={formData.lastName}
                 onChange={handleChange}
                 required
-                style={{ flex: 1, padding: "0.5rem", borderRadius: "6px", border: "1px solid #ccc" }}
+                style={{
+                  flex: 1,
+                  padding: "0.5rem",
+                  borderRadius: "6px",
+                  border: "1px solid #ccc",
+                }}
               />
             </div>
             <input
@@ -96,7 +154,11 @@ export default function ContactSection() {
               value={formData.phone}
               onChange={handleChange}
               required
-              style={{ padding: "0.5rem", borderRadius: "6px", border: "1px solid #ccc" }}
+              style={{
+                padding: "0.5rem",
+                borderRadius: "6px",
+                border: "1px solid #ccc",
+              }}
             />
             <input
               type="email"
@@ -105,7 +167,11 @@ export default function ContactSection() {
               value={formData.email}
               onChange={handleChange}
               required
-              style={{ padding: "0.5rem", borderRadius: "6px", border: "1px solid #ccc" }}
+              style={{
+                padding: "0.5rem",
+                borderRadius: "6px",
+                border: "1px solid #ccc",
+              }}
             />
             <textarea
               name="message"
@@ -114,17 +180,22 @@ export default function ContactSection() {
               value={formData.message}
               onChange={handleChange}
               required
-              style={{ padding: "0.5rem", borderRadius: "6px", border: "1px solid #ccc", resize: "vertical" }}
+              style={{
+                padding: "0.5rem",
+                borderRadius: "6px",
+                border: "1px solid #ccc",
+                resize: "vertical",
+              }}
             ></textarea>
-            <button 
-              type="submit" 
-              style={{ 
-                padding: "0.75rem", 
-                borderRadius: "6px", 
-                backgroundColor: "green", 
-                color: "white", 
-                border: "none", 
-                cursor: "pointer" 
+            <button
+              type="submit"
+              style={{
+                padding: "0.75rem",
+                borderRadius: "6px",
+                backgroundColor: "green",
+                color: "white",
+                border: "none",
+                cursor: "pointer",
               }}
             >
               Send
