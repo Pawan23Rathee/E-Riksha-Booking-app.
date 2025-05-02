@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-// HomePage.js
-import React from 'react';
-// lkfkldflkdjf
-const HomePage = () => {
-=======
+
 import React from "react";
 
 const Homepage= () => {
->>>>>>> 496a908b80304b014e268f26444f6cbed7d0af9b
   return (
     <section className="bg-gradient-to-r text-blue py-16 px-4 sm:px-6 md:px-12">
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between">
@@ -27,7 +21,7 @@ const Homepage= () => {
             <button className="bg-green-500 text-white-600 px-6 py-3 rounded-xl font-semibold shadow-md hover:bg-green-600 transition">
               Book
             </button>
-            <button className="border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition">
+            <button className=" bg-green-500 border border-white px-6 py-3 rounded-xl font-semibold hover:bg-green-600 hover:text-black-600 transition">
               Learn More
             </button>
           </div>

@@ -8,6 +8,7 @@ import SignUpPage from './Pages/SignUpPage';
 import ProtectedRoute from './Components/ProtectedRoute';
 import HomePage from './Pages/HomePage';
 import MapPage from './Pages/MapPage'; // ✅ Import MapPage
+import ContactSection from './Pages/Contactsection'; // ✅ Import ContactSection
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,7 +31,8 @@ function App() {
         <Route path="/map" element={<MapPage />} /> {/* ✅ Add map route here */}
         <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/signup" element={<SignUpPage />} />
-        
+        <Route path="/contact" element={<ContactSection />} /> {/* Add contact route here */}
+       
       </Routes>
     </Router>
   );

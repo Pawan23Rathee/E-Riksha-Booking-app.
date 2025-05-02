@@ -44,13 +44,13 @@ const LoginPage = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
       <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">Profile</h2>
+        <h2 className="text-3xl font-bold text-center text-green-600 mb-6">Profile</h2>
 
         {isLoggedIn ? (
           <div className="text-center">
             <h3 className="text-2xl font-semibold">Welcome, {user.name}!</h3>
-            <p className="text-gray-600 mt-2"><strong>Email:</strong> {user.email}</p>
-            <p className="text-gray-600"><strong>Phone:</strong> {user.phone}</p>
+            <p className="text-green-600 mt-2"><strong>Email:</strong> {user.email}</p>
+            <p className="text-green-600"><strong>Phone:</strong> {user.phone}</p>
             <button onClick={handleLogout} className="mt-6 w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">Sign Out</button>
           </div>
         ) : (
@@ -92,7 +92,7 @@ const LoginPage = () => {
               <button className="flex items-center justify-center w-full bg-gray-100 border rounded-lg px-4 py-2 hover:bg-gray-200 transition">
                 <FcGoogle className="text-2xl mr-2" /> Sign in with Google
               </button>
-              <button className="flex items-center justify-center w-full bg-blue-600 text-white rounded-lg px-4 py-2 hover:bg-blue-800 transition">
+              <button className="flex items-center justify-center w-full bg-green-600 text-white rounded-lg px-4 py-2 hover:bg-blue-800 transition">
                 <FaFacebook className="text-2xl mr-2" /> Sign in with Facebook
               </button>
             </div>
