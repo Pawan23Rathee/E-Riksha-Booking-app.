@@ -9,10 +9,10 @@ const MapPage = () => {
 
   return (
     <div className="px-4 py-6">
-      <h2 className="text-xl font-bold mb-4 text-center">Select Your Delivery Location</h2>
+      <h2 className="text-xl font-bold mb-4 text-center">Select Your  Location</h2>
       
       {/* Search Bar Component */}
-      <LocationSearch />
+      {/* <LocationSearch /> */}
 
       {/* Map Component */}
       <div className="mt-6">

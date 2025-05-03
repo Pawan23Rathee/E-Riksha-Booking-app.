@@ -1,171 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import axios from 'axios';
-import { FaLocationArrow } from 'react-icons/fa';
+import React from 'react';
+import CarBooking from './CarBooking';
+import Card from './Card';
 
 const MapComponent = () => {
-  const [position, setPosition] = useState(null); // Store current position
-  const [userLocation, setUserLocation] = useState(null); // Store live location
-  const [searchQuery, setSearchQuery] = useState(''); // Store search query
-  const [searchedLocation, setSearchedLocation] = useState(null); // Store coordinates of searched location
-
-  useEffect(() => {
-    // Get user's current position on initial load
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setPosition([latitude, longitude]); // Set initial position
-        },
-        (error) => {
-          console.error(error);
-          alert("Unable to fetch your location.");
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
+  const cards = [
+    {
+      image: "/Premium.jpeg",
+      title: "Premium Service Cab",
+      description: "Travel in style and comfort with our Premium Service Cab. Enjoy spacious interiors, top-tier amenities, and a smooth ride with a professional driver. Perfect for those who demand luxury and quality.",
+      tags: [ 'travel', 'winter']
+    },
+    {
+      image: "/Standard.jpeg",
+      title: "Standard Cab Service",
+      description: "Affordable and reliable, our Standard Cab service ensures a comfortable ride to your destination. Enjoy a smooth journey with experienced drivers at a great price.",
+      tags: [ 'Travel', 'peaceful']
+    },
+    {
+      image: "/Cab.jpeg",
+      title: "Cab",
+      description: "Experience quick and budget-friendly travel with our efficient service. Get to your destination in no time, without breaking the bank, and enjoy a comfortable ride along the way!.",
+      tags: ['affordable', 'comfortable', 'Fast']
     }
-  }, []);
-
-  const MapUpdater = ({ position }) => {
-    const map = useMap(); // Get the map instance
-
-    // Update the map view to the new location
-    useEffect(() => {
-      if (position) {
-        map.setView(position, 13); // Set the map center to the new position
-      }
-    }, [position, map]);
-
-    return null;
-  };
-
-  // Handle live location button click
-  const handleLiveLocationClick = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation([latitude, longitude]);
-        },
-        (error) => {
-          console.error(error);
-          alert("Unable to fetch your location.");
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  };
-
-  // Handle search input change and geocoding API request
-  const handleSearch = async () => {
-    if (searchQuery.trim() !== '') {
-      try {
-        const response = await axios.get('https://nominatim.openstreetmap.org/search', {
-          params: {
-            q: searchQuery,
-            format: 'json',
-            addressdetails: 1,
-            limit: 1,
-            countrycodes: 'IN', // Limit to India
-          },
-        });
-        const location = response.data[0];
-        if (location) {
-          const newPosition = [parseFloat(location.lat), parseFloat(location.lon)];
-          setSearchedLocation(newPosition); // Set new location from search
-          setPosition(newPosition); // Update map center to searched location
-        } else {
-          alert('Location not found');
-        }
-      } catch (error) {
-        console.error('Error fetching location:', error);
-        alert('Error fetching location');
-      }
-    }
-  };
-
-  if (!position) {
-    return <div>Loading map...</div>; // Loading state until position is fetched
-  }
+  ];
 
   return (
-    <div className="relative">
-      <MapContainer
-        center={position}
-        zoom={13}
-        style={{ height: '500px', width: '100%' }}
-        scrollWheelZoom={true}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-
-        {/* Update the map view if live location or searched location is set */}
-        <MapUpdater position={userLocation || searchedLocation || position} />
-
-        {/* Marker for user's live location */}
-        {userLocation && (
-          <Marker position={userLocation}>
-            <Popup>Your live location</Popup>
-          </Marker>
-        )}
-
-        {/* Marker for searched location */}
-        {searchedLocation && (
-          <Marker position={searchedLocation}>
-            <Popup>Search result location</Popup>
-          </Marker>
-        )}
-
-        {/* Marker for initial position */}
-        <Marker position={position}>
-          <Popup>Your initial location</Popup>
-        </Marker>
-
-        {/* Live Location Button inside Map */}
-        <button
-          onClick={handleLiveLocationClick}
-          style={{
-            position: 'absolute',
-            top: '20px',
-            right: '20px',
-            padding: '10px',
-            backgroundColor: '#007bff',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '50%',
-            cursor: 'pointer',
-            fontSize: '16px',
-            zIndex: 1000,
-          }}
-        >
-          <FaLocationArrow />
-        </button>
-
-        {/* Search Bar inside Map */}
-        <div className="absolute top-0 left-0 m-4 flex justify-between w-full">
-          <input
-            type="text"
-            placeholder="Search for a location in India..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="p-3 w-1/2 rounded-md shadow-md border-2 border-gray-300 focus:outline-none"
+    <>
+      <CarBooking />
+      <div className="p-4 flex gap-4 flex-wrap justify-center">
+        {cards.map((card, index) => (
+          <Card
+            key={index}
+            image={card.image}
+            title={card.title}
+            description={card.description}
+            tags={card.tags}
           />
-          <button
-            onClick={handleSearch}
-            className="p-3 ml-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-all duration-300"
-          >
-            Search
-          </button>
-        </div>
-
-      </MapContainer>
-    </div>
+        ))}
+      </div>
+    </>
   );
 };
 

@@ -1,0 +1,56 @@
+/* Map wrapper for positioning controls */
+.map-wrapper {
+  position: relative;
+}
+
+/* Live location button styles */
+.live-location-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 1000;
+}
+
+/* Search bar container styles */
+.search-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+  width: calc(100% - 40px);
+  max-width: 600px;
+}
+
+/* Input field styling */
+.search-input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Search button styling */
+.search-button {
+  padding: 12px 20px;
+  background-color: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #16a34a;
+}
