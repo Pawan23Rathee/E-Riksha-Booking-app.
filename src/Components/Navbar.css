@@ -132,9 +132,12 @@
   font-size: 14px;
   transition: background-color 0.3s ease;
 }
+.dropdown-menu .dropdown-item{
+  color: black;
+}
 
 .dropdown-item:hover {
-  background-color: #f0f0f0;
+  background-color: #1cb436;
 }
 
 /* Auth Buttons */

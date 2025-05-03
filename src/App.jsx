@@ -16,9 +16,7 @@ function App() {
   return (
     <Router>
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      <Routes>
-
-        
+      <Routes>       
         <Route path="/" element={<HomePage />} />
         <Route 
           path="/profile" 
@@ -37,5 +35,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;
