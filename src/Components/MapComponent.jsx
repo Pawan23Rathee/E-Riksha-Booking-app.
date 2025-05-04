@@ -1,33 +1,34 @@
 import React from 'react';
 import CarBooking from './CarBooking';
 import Card from './Card';
+import ReviewPage from './ReviewPage';
 
 const MapComponent = () => {
   const cards = [
     {
       image: "/Premium.jpeg",
       title: "Premium Service Cab",
-      description: "Travel in style and comfort with our Premium Service Cab. Enjoy spacious interiors, top-tier amenities, and a smooth ride with a professional driver. Perfect for those who demand luxury and quality.",
-      tags: [ 'travel', 'winter']
+      description: "Travel in style and comfort with our Premium Service Cab. Spacious interiors, top-tier amenities, and a smooth ride.",
+      tags: ['travel', 'luxury'],
     },
     {
       image: "/Standard.jpeg",
       title: "Standard Cab Service",
-      description: "Affordable and reliable, our Standard Cab service ensures a comfortable ride to your destination. Enjoy a smooth journey with experienced drivers at a great price.",
-      tags: [ 'Travel', 'peaceful']
+      description: "Affordable and reliable. A smooth journey with experienced drivers at a great price.",
+      tags: ['travel', 'affordable'],
     },
     {
       image: "/Cab.jpeg",
-      title: "Cab",
-      description: "Experience quick and budget-friendly travel with our efficient service. Get to your destination in no time, without breaking the bank, and enjoy a comfortable ride along the way!.",
-      tags: ['affordable', 'comfortable', 'Fast']
-    }
+      title: "Fast & Budget Travel",
+      description: "The fastest and most affordable way to reach your destination safely and quickly.",
+      tags: ['fast', 'budget'],
+    },
   ];
 
   return (
     <>
       <CarBooking />
-      <div className="p-4 flex gap-4 flex-wrap justify-center">
+      <div className="p-4 flex flex-wrap gap-20 justify-center">
         {cards.map((card, index) => (
           <Card
             key={index}
@@ -38,6 +39,7 @@ const MapComponent = () => {
           />
         ))}
       </div>
+      <ReviewPage/>
     </>
   );
 };
