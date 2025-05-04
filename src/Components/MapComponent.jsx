@@ -53,8 +53,6 @@ const MapComponent = () => {
       <ReviewPage />
       
       {/* Info Section */}
-      <InfoSection />
-      
       {/* Slogan */}
       <h1 className="heading text-center">Ride Safe, Ride Right</h1>
 
@@ -68,6 +66,8 @@ const MapComponent = () => {
 </NavLink>
 
       </div>
+      <InfoSection />
+      
 
      
     </>
