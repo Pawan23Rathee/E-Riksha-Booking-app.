@@ -22,7 +22,7 @@
 /* Desktop List */
 .List {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   align-items: center;
   transition: transform 0.2s ease;
   list-style: none;

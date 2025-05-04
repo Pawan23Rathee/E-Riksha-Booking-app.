@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';  // Import Firebase auth instance
 
 const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  // Handle login logic
-  const handleLogin = async () => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      console.log('User logged in:', user);
-      setIsLoggedIn(true);  // If successful, mark user as logged in
+  // Handle login logic (replace Firebase logic with your own logic)
+  const handleLogin = () => {
+    // Your login logic here (e.g., checking email/password)
+    if (email === 'user@example.com' && password === 'password123') {
+      console.log('User logged in');
+      setIsLoggedIn(true);  // Mark user as logged in
       // Optionally, you can redirect user to another page after login
-    } catch (error) {
-      console.error('Error signing in:', error.message);
+    } else {
+      console.error('Error signing in');
       setError('Invalid email or password. Please try again.');
     }
   };

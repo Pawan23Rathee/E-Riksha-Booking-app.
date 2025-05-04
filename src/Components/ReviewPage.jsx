@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
-import { db, auth } from '../firebase';
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp
-} from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
 
 const ReviewPage = () => {
   const [rating, setRating] = useState(0);
@@ -18,32 +8,29 @@ const ReviewPage = () => {
   const [comments, setComments] = useState([]);
   const [user, setUser] = useState(null);
 
+  // Mock function to simulate checking user authentication
   useEffect(() => {
-    // Track auth state
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
+    // Replace with your own auth state logic (e.g., local storage, JWT, etc.)
+    const currentUser = { name: 'John Doe' };  // Mock logged-in user
+    setUser(currentUser);
 
-    // Fetch existing comments
-    const q = query(collection(db, 'reviews'), orderBy('timestamp', 'desc'));
-    const unsubscribeComments = onSnapshot(q, (snapshot) => {
-      setComments(snapshot.docs.map(doc => doc.data()));
-    });
-
-    return () => {
-      unsubscribe();
-      unsubscribeComments();
-    };
+    // Mock comments fetching (replace with your backend fetching logic)
+    const fetchedComments = [
+      { name: 'Jane Doe', stars: 5, text: 'Great product!' },
+      { name: 'Alice', stars: 4, text: 'Good value for money.' },
+    ];
+    setComments(fetchedComments);
   }, []);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (review.trim() && user) {
-      await addDoc(collection(db, 'reviews'), {
+      const newComment = {
         text: review,
         stars: rating,
-        name: user.displayName || user.email,
-        timestamp: serverTimestamp(),
-      });
+        name: user.name || user.email,
+      };
+
+      setComments([newComment, ...comments]);  // Add new comment to the list
       setReview('');
       setRating(0);
     }
