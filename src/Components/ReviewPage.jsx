@@ -71,7 +71,7 @@ const ReviewPage = () => {
 
       {/* Review Textarea */}
       <textarea
-        className="w-full border border-gray-300 rounded p-2 mb-3 max-w-md"
+        className="w-full border border-gray-300 rounded p-2 mb-3 "
         rows="4"
         placeholder={
           user ? "Write your review here..." : "Login to write a review..."

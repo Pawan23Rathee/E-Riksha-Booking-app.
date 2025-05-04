@@ -2,6 +2,8 @@ import React from 'react';
 import CarBooking from './CarBooking';
 import Card from './Card';
 import ReviewPage from './ReviewPage';
+import InfoCard from './InfoCard';
+import InfoSection from './InfoSection';
 
 const MapComponent = () => {
   const cards = [
@@ -40,6 +42,7 @@ const MapComponent = () => {
         ))}
       </div>
       <ReviewPage/>
+      <InfoSection/>
     </>
   );
 };
