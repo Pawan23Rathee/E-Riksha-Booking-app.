@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';  // Import Firebase auth instance
+import React, { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+
+
+ // Import Firebase auth instance
 
 const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
