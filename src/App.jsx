@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Components/Navbar';
 import ProfilePage from './Pages/ProfilePage';
 import PointsPage from './Pages/PointsPage';
-// import LoginPage from "./Pages/LoginPage";
+import LoginPage from "./Pages/LoginPage";
 
 import SignUpPage from './Pages/SignUpPage';
 import ProtectedRoute from './Components/ProtectedRoute';
@@ -29,7 +29,7 @@ function App() {
           element={<ProtectedRoute isLoggedIn={isLoggedIn}><PointsPage /></ProtectedRoute>}
         />
         <Route path="/map" element={<MapPage />} />
-        {/* <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} /> */}
+        <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/contact" element={<ContactSection />} />
       </Routes>

@@ -48,7 +48,7 @@ export default function ContactSection() {
   };
 
   return (
-    <div style={{ display: "flex", gap: "2rem", padding: "2rem", flexWrap: "wrap" }}>
+    <div style={{ display: "flex", gap: "2rem", padding: "2rem", flexWrap: "wrap", marginTop: "5rem" }}>
       {/* Left Side */}
       <div style={{ flex: 1, minWidth: "300px" }}>
         <img
