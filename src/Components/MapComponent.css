@@ -54,3 +54,11 @@
 .search-button:hover {
   background-color: #16a34a;
 }
+/* styles.css */
+.heading {
+  font-family: 'Arial', sans-serif;
+  font-size: 48px;
+  font-weight: bold;
+  color: green;
+  text-align: center;
+}

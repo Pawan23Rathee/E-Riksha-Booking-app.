@@ -1,7 +1,8 @@
+/* Base styling for the container */
 .car-booking-container {
   position: relative;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
 }
 
 /* Map wrapper */
@@ -9,6 +10,7 @@
   position: relative;
 }
 
+/* Live Location Button */
 .live-location-btn {
   position: absolute;
   top: 20px;
@@ -28,6 +30,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .location-input {
@@ -57,7 +60,7 @@
 /* Car booking form container */
 .form-container {
   margin: 0px auto;
-  max-width: 10000px;
+  max-width: 1500px; /* Add a max-width for desktop */
   padding: 20px;
   background-color: #ffffff;
   border-radius: 12px;
@@ -66,7 +69,6 @@
   flex-direction: column;
   /* align-items: center; */
 }
-
 
 .input-group {
   margin-bottom: 15px;
@@ -77,12 +79,14 @@
   margin-bottom: 5px;
 }
 
-.select {
+.select,
+.location-input {
   width: 100%;
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  font-size: 14px;
 }
 
 .book-button {
@@ -103,12 +107,13 @@
 
 /* Ensure everything is responsive */
 @media (max-width: 768px) {
+  /* Map container responsive size for smaller screens */
   .map-wrapper {
-    height: 300px;
+    height: 250px; /* Reduced height for mobile */
   }
 
   .form-container {
-    padding: 10px;
+    padding: 15px;
   }
 
   .search-bar-container {
@@ -123,5 +128,62 @@
   .search-button {
     width: 100%;
     margin-top: 10px;
+  }
+
+  .book-button {
+    font-size: 14px; /* Adjust font size for better readability on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Smaller device styles */
+  .map-wrapper {
+    height: 200px; /* Even smaller map for phones */
+  }
+
+  .search-bar-container {
+    flex-direction: column;
+  }
+
+  .location-input {
+    width: 100%;
+  }
+
+  .search-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .form-container {
+    padding: 10px;
+  }
+
+  .book-button {
+    font-size: 14px;
+  }
+
+  .live-location-btn {
+    font-size: 14px; /* Adjust size of button for mobile */
+    padding: 8px; /* Reduce padding */
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Desktop & larger tablet */
+  .form-container {
+    padding: 20px 40px;
+  }
+
+  .map-wrapper {
+    height: 400px; /* Map height for larger screens */
+  }
+
+  .book-button {
+    font-size: 18px;
+  }
+
+  .live-location-btn {
+    font-size: 18px; /* Larger button size for tablets/desktops */
+    padding: 12px; /* Increase padding */
   }
 }

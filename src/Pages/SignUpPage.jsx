@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, db } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -21,18 +18,16 @@ const SignUpPage = () => {
       return;
     }
 
+    // Mock signup logic (replace with your backend call or custom logic)
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const uid = userCredential.user.uid;
-
-      await setDoc(doc(db, "users", uid), {
-        name, email, phone, age, dob
-      });
-
+      // Replace with your own backend call to create a new user
+      console.log('User data:', formData);
+      
+      // Simulate successful sign-up (you can replace this with a backend call)
       alert("Account created successfully!");
       navigate('/login');
     } catch (error) {
-      alert(error.message);
+      alert('Error creating account:', error.message);
     }
   };
 
