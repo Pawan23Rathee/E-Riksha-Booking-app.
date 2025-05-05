@@ -132,43 +132,43 @@ const CarBooking = () => {
         </MapContainer>
       </div>
 
-      {/* Car booking form */}
       <div className="form-container">
-        
-
-        <div className="input-group">
-          <label htmlFor="lcation">Drop Location</label>
-          <div className="search-bar-container">
-            <input
-              type="text"
-              id="location"
-              className="location-input"
-              placeholder="Enter drop location..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              autoComplete="off"
-            />
-            <button className="search-button" onClick={handleSearch}>Search</button>
-          </div>
+      {/* Drop Location Input */}
+      <div className="input-group">
+        <label htmlFor="location">Drop Location</label>
+        <div className="search-bar-container">
+          <input
+            type="text"
+            id="location"
+            className="location-input"
+            placeholder="Enter drop location..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            autoComplete="off"
+          />
+          <button className="search-button" onClick={handleSearch}>Search</button>
         </div>
-
-        <div className="input-group">
-          <label htmlFor="timeSelect">Select Time</label>
-          <select id="timeSelect">
-            <option value="">-- Select Time --</option>
-            <option value="now">🚗 Now</option>
-            <option value="12:00">12:00 PM</option>
-            <option value="13:00">1:00 PM</option>
-            <option value="14:00">2:00 PM</option>
-            <option value="15:00">3:00 PM</option>
-            <option value="16:00">4:00 PM</option>
-            <option value="17:00">5:00 PM</option>
-            <option value="18:00">6:00 PM</option>
-          </select>
-        </div>
-
-        <button className="book-button">Book Ride</button>
       </div>
+
+      {/* Select Time Input */}
+      <div className="input-group">
+        <label htmlFor="timeSelect">Select Time</label>
+        <select id="timeSelect">
+          <option value="">-- Select Time --</option>
+          <option value="now">🚗 Now</option>
+          <option value="12:00">12:00 PM</option>
+          <option value="13:00">1:00 PM</option>
+          <option value="14:00">2:00 PM</option>
+          <option value="15:00">3:00 PM</option>
+          <option value="16:00">4:00 PM</option>
+          <option value="17:00">5:00 PM</option>
+          <option value="18:00">6:00 PM</option>
+        </select>
+      </div>
+
+      {/* Book Ride Button */}
+      <button className="book-button">Book Ride</button>
+    </div>
     </div>
     
   );

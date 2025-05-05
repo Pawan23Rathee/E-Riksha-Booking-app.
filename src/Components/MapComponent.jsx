@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { NavLink } from 'react-router-dom'; // Import NavLink from React Router
 import CarBooking from './CarBooking';
 import Card from './Card';
 import ReviewPage from './ReviewPage';
+import InfoCard from './InfoCard';
+import InfoSection from './InfoSection';
+import './MapComponent.css'; // Import CSS file for styling
 
 const MapComponent = () => {
   const cards = [
@@ -27,7 +31,12 @@ const MapComponent = () => {
 
   return (
     <>
-      <CarBooking />
+      {/* Cards Section */}
+       {/* CarBooking Section */}
+      {/* You can add this or remove it based on your routing setup */}
+      <div className="car-booking-container mt-10">
+        <CarBooking />
+      </div>
       <div className="p-4 flex flex-wrap gap-20 justify-center">
         {cards.map((card, index) => (
           <Card
@@ -39,7 +48,28 @@ const MapComponent = () => {
           />
         ))}
       </div>
-      <ReviewPage/>
+
+      {/* Review Section */}
+      <ReviewPage />
+      
+      {/* Info Section */}
+      {/* Slogan */}
+      <h1 className="heading text-center">Ride Safe, Ride Right</h1>
+
+      {/* Book Now Button as NavLink */}
+      <div className="text-center mt-4">
+      <NavLink
+  to="/car-booking" // Navigates to the CarBooking page
+  className="w-full bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"
+>
+  Book Now
+</NavLink>
+
+      </div>
+      <InfoSection />
+      
+
+     
     </>
   );
 };
