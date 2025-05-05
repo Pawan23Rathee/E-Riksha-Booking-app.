@@ -187,3 +187,18 @@
     padding: 12px; /* Increase padding */
   }
 }
+/* Optional: loader fallback in case you don’t use Tailwind */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #22c55e;
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}

@@ -4,7 +4,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 import { FaLocationArrow } from 'react-icons/fa';
-import './Car.css'; // Make sure the CSS is correctly linked
+import './Car.css';
 
 // Fix missing marker icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -19,21 +19,27 @@ const CarBooking = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchedLocation, setSearchedLocation] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!position) setError(true);
+    }, 10000); // Retry after 10 seconds
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           const { latitude, longitude } = coords;
           setPosition([latitude, longitude]);
+          clearTimeout(timer);
         },
-        (error) => {
-          console.error(error);
-          alert("Unable to fetch your location.");
+        () => {
+          setError(true);
+          clearTimeout(timer);
         }
       );
     } else {
-      alert("Geolocation is not supported by this browser.");
+      setError(true);
     }
   }, []);
 
@@ -52,13 +58,8 @@ const CarBooking = () => {
           const { latitude, longitude } = coords;
           setUserLocation([latitude, longitude]);
         },
-        (error) => {
-          console.error(error);
-          alert("Unable to fetch your location.");
-        }
+        () => alert("Unable to fetch your location.")
       );
-    } else {
-      alert("Geolocation is not supported by this browser.");
     }
   };
 
@@ -82,24 +83,42 @@ const CarBooking = () => {
         } else {
           alert('Location not found');
         }
-      } catch (error) {
-        console.error('Error fetching location:', error);
+      } catch {
         alert('Error fetching location');
       }
     }
   };
 
-  if (!position) return <div>Loading map...</div>;
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 text-center">
+        <p className="text-red-600 font-semibold text-lg mb-3">Failed to load map</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+        >
+          Retry Again
+        </button>
+      </div>
+    );
+  }
+
+  if (!position) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64">
+        <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p className="text-green-700 font-medium">Loading map...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="car-booking-container">
-      {/* Map wrapper */}
       <div className="map-wrapper">
         <button className="live-location-btn" onClick={handleLiveLocationClick}>
           <FaLocationArrow />
         </button>
 
-        {/* Map itself */}
         <MapContainer
           key={position.join(',')}
           center={position}
@@ -119,13 +138,11 @@ const CarBooking = () => {
               <Popup>Your live location</Popup>
             </Marker>
           )}
-
           {searchedLocation && (
             <Marker position={searchedLocation}>
               <Popup>Search result location</Popup>
             </Marker>
           )}
-
           <Marker position={position}>
             <Popup>Your initial location</Popup>
           </Marker>
@@ -133,44 +150,40 @@ const CarBooking = () => {
       </div>
 
       <div className="form-container">
-      {/* Drop Location Input */}
-      <div className="input-group">
-        <label htmlFor="location">Drop Location</label>
-        <div className="search-bar-container">
-          <input
-            type="text"
-            id="location"
-            className="location-input"
-            placeholder="Enter drop location..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            autoComplete="off"
-          />
-          <button className="search-button" onClick={handleSearch}>Search</button>
+        <div className="input-group">
+          <label htmlFor="location">Drop Location</label>
+          <div className="search-bar-container">
+            <input
+              type="text"
+              id="location"
+              className="location-input"
+              placeholder="Enter drop location..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoComplete="off"
+            />
+            <button className="search-button" onClick={handleSearch}>Search</button>
+          </div>
         </div>
-      </div>
 
-      {/* Select Time Input */}
-      <div className="input-group">
-        <label htmlFor="timeSelect">Select Time</label>
-        <select id="timeSelect">
-          <option value="">-- Select Time --</option>
-          <option value="now">🚗 Now</option>
-          <option value="12:00">12:00 PM</option>
-          <option value="13:00">1:00 PM</option>
-          <option value="14:00">2:00 PM</option>
-          <option value="15:00">3:00 PM</option>
-          <option value="16:00">4:00 PM</option>
-          <option value="17:00">5:00 PM</option>
-          <option value="18:00">6:00 PM</option>
-        </select>
-      </div>
+        <div className="input-group">
+          <label htmlFor="timeSelect">Select Time</label>
+          <select id="timeSelect">
+            <option value="">-- Select Time --</option>
+            <option value="now">🚗 Now</option>
+            <option value="12:00">12:00 PM</option>
+            <option value="13:00">1:00 PM</option>
+            <option value="14:00">2:00 PM</option>
+            <option value="15:00">3:00 PM</option>
+            <option value="16:00">4:00 PM</option>
+            <option value="17:00">5:00 PM</option>
+            <option value="18:00">6:00 PM</option>
+          </select>
+        </div>
 
-      {/* Book Ride Button */}
-      <button className="book-button">Book Ride</button>
+        <button className="book-button">Book Ride</button>
+      </div>
     </div>
-    </div>
-    
   );
 };
 
