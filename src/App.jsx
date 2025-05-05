@@ -9,7 +9,7 @@ import SignUpPage from './Pages/SignUpPage';
 import ProtectedRoute from './Components/ProtectedRoute';
 import HomePage from './Pages/HomePage';
 import MapPage from './Pages/MapPage';
-import ContactSection from './Pages/Contactsection';
+import ContactSection from './Pages/ContactSection';
 
 
 function App() {
