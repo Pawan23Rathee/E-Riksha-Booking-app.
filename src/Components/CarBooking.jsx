@@ -16,23 +16,25 @@ L.Icon.Default.mergeOptions({
 });
 
 const CarBooking = () => {
-  const [position, setPosition] = useState(null);
-  const [userLocation, setUserLocation] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchedLocation, setSearchedLocation] = useState(null);
+  const [pickupLocation, setPickupLocation] = useState(null);
+  const [dropLocation, setDropLocation] = useState(null);
+  const [pickupQuery, setPickupQuery] = useState('Current Location');
+  const [dropQuery, setDropQuery] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
   const [error, setError] = useState(false);
-  const navigate = useNavigate(); // ✅ added for navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!position) setError(true);
+      if (!pickupLocation) setError(true);
     }, 10000);
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           const { latitude, longitude } = coords;
-          setPosition([latitude, longitude]);
+          const current = [latitude, longitude];
+          setPickupLocation(current);
           clearTimeout(timer);
         },
         () => {
@@ -53,24 +55,13 @@ const CarBooking = () => {
     return null;
   };
 
-  const handleLiveLocationClick = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        ({ coords }) => {
-          const { latitude, longitude } = coords;
-          setUserLocation([latitude, longitude]);
-        },
-        () => alert("Unable to fetch your location.")
-      );
-    }
-  };
-
-  const handleSearch = async () => {
-    if (searchQuery.trim() !== '') {
+  const handleLocationSearch = async (query, setLocation) => {
+    if (query.trim().toLowerCase() === 'current location') return pickupLocation;
+    if (query.trim() !== '') {
       try {
         const response = await axios.get('https://nominatim.openstreetmap.org/search', {
           params: {
-            q: searchQuery,
+            q: query,
             format: 'json',
             addressdetails: 1,
             limit: 1,
@@ -79,20 +70,43 @@ const CarBooking = () => {
         });
         const location = response.data[0];
         if (location) {
-          const newPosition = [parseFloat(location.lat), parseFloat(location.lon)];
-          setSearchedLocation(newPosition);
-          setPosition(newPosition);
+          const coords = [parseFloat(location.lat), parseFloat(location.lon)];
+          setLocation(coords);
+          return coords;
         } else {
           alert('Location not found');
+          return null;
         }
       } catch {
         alert('Error fetching location');
+        return null;
       }
+    }
+    return null;
+  };
+
+  const handleProceed = async () => {
+    const pickupCoords = await handleLocationSearch(pickupQuery, setPickupLocation);
+    const dropCoords = await handleLocationSearch(dropQuery, setDropLocation);
+    if (!selectedTime) {
+      alert('Please select a time');
+      return;
+    }
+    if (pickupCoords && dropCoords) {
+      navigate('/booksection', {
+        state: {
+          origin: pickupCoords,
+          destination: dropCoords,
+          time: selectedTime,
+        },
+      });
     }
   };
 
-  const handleBookRide = () => {
-    navigate('/confirmation'); // ✅ navigate to the confirmation page
+  const handleKeyPress = async (e) => {
+    if (e.key === 'Enter') {
+      handleProceed();
+    }
   };
 
   if (error) {
@@ -109,7 +123,7 @@ const CarBooking = () => {
     );
   }
 
-  if (!position) {
+  if (!pickupLocation) {
     return (
       <div className="flex flex-col items-center justify-center h-64">
         <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -120,14 +134,10 @@ const CarBooking = () => {
 
   return (
     <div className="car-booking-container">
-      <div className="map-wrapper">
-        <button className="live-location-btn" onClick={handleLiveLocationClick}>
-          <FaLocationArrow />
-        </button>
-
+      <div className="map-wrapper mb-4">
         <MapContainer
-          key={position.join(',')}
-          center={position}
+          key={pickupLocation.join(',')}
+          center={pickupLocation}
           zoom={13}
           style={{ height: '400px', width: '100%' }}
           scrollWheelZoom={true}
@@ -137,44 +147,59 @@ const CarBooking = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          <MapUpdater position={userLocation || searchedLocation || position} />
+          <MapUpdater position={dropLocation || pickupLocation} />
 
-          {userLocation && (
-            <Marker position={userLocation}>
-              <Popup>Your live location</Popup>
+          {pickupLocation && (
+            <Marker position={pickupLocation}>
+              <Popup>Pickup Location</Popup>
             </Marker>
           )}
-          {searchedLocation && (
-            <Marker position={searchedLocation}>
-              <Popup>Search result location</Popup>
+
+          {dropLocation && (
+            <Marker position={dropLocation}>
+              <Popup>Drop Location</Popup>
             </Marker>
           )}
-          <Marker position={position}>
-            <Popup>Your initial location</Popup>
-          </Marker>
         </MapContainer>
       </div>
 
-      <div className="form-container">
+      <div className="form-container p-4 bg-white rounded shadow-md space-y-4">
         <div className="input-group">
-          <label htmlFor="location">Drop Location</label>
-          <div className="search-bar-container">
-            <input
-              type="text"
-              id="location"
-              className="location-input"
-              placeholder="Enter drop location..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              autoComplete="off"
-            />
-            <button className="search-button" onClick={handleSearch}>Search</button>
-          </div>
+          <label htmlFor="pickup" className="font-semibold mb-1 block">Pickup Location</label>
+          <input
+            type="text"
+            id="pickup"
+            className="w-full border border-gray-300 rounded px-3 py-2"
+            placeholder="Enter pickup location..."
+            value={pickupQuery}
+            onChange={(e) => setPickupQuery(e.target.value)}
+            onKeyDown={handleKeyPress}
+            autoComplete="off"
+          />
         </div>
 
         <div className="input-group">
-          <label htmlFor="timeSelect">Select Time</label>
-          <select id="timeSelect">
+          <label htmlFor="drop" className="font-semibold mb-1 block">Drop Location</label>
+          <input
+            type="text"
+            id="drop"
+            className="w-full border border-gray-300 rounded px-3 py-2"
+            placeholder="Enter drop location..."
+            value={dropQuery}
+            onChange={(e) => setDropQuery(e.target.value)}
+            onKeyDown={handleKeyPress}
+            autoComplete="off"
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="timeSelect" className="font-semibold mb-1 block">Select Time</label>
+          <select
+            id="timeSelect"
+            className="w-full border border-gray-300 rounded px-3 py-2"
+            value={selectedTime}
+            onChange={(e) => setSelectedTime(e.target.value)}
+          >
             <option value="">-- Select Time --</option>
             <option value="now">🚗 Now</option>
             <option value="12:00">12:00 PM</option>
@@ -187,7 +212,12 @@ const CarBooking = () => {
           </select>
         </div>
 
-        <button className="book-button" onClick={handleBookRide}>Book Ride</button>
+        <button
+          onClick={handleProceed}
+          className="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+        >
+          Book
+        </button>
       </div>
     </div>
   );
