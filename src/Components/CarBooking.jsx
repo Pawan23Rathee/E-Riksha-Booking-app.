@@ -4,6 +4,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 import { FaLocationArrow } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import './Car.css';
 
 // Fix missing marker icons
@@ -20,11 +21,12 @@ const CarBooking = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchedLocation, setSearchedLocation] = useState(null);
   const [error, setError] = useState(false);
+  const navigate = useNavigate(); // ✅ added for navigation
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!position) setError(true);
-    }, 10000); // Retry after 10 seconds
+    }, 10000);
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -87,6 +89,10 @@ const CarBooking = () => {
         alert('Error fetching location');
       }
     }
+  };
+
+  const handleBookRide = () => {
+    navigate('/confirmation'); // ✅ navigate to the confirmation page
   };
 
   if (error) {
@@ -181,7 +187,7 @@ const CarBooking = () => {
           </select>
         </div>
 
-        <button className="book-button">Book Ride</button>
+        <button className="book-button" onClick={handleBookRide}>Book Ride</button>
       </div>
     </div>
   );

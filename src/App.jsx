@@ -10,6 +10,9 @@ import ProtectedRoute from './Components/ProtectedRoute';
 import HomePage from './Pages/HomePage';
 import MapPage from './Pages/MapPage';
 import ContactSection from './Pages/ContactSection';
+import CarBooking from './Components/CarBooking';
+import Booksection from './Pages/Booksection';
+//           setUserLocation([latitude, longitude]);
 
 
 function App() {
@@ -32,6 +35,8 @@ function App() {
         <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/contact" element={<ContactSection />} />
+        <Route path="/car-booking" element={<CarBooking />} />
+        <Route path="/confirmation" element={<Booksection />} />
       </Routes>
     </Router>
   );
