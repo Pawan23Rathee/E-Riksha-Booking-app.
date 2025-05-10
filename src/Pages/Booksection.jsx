@@ -10,6 +10,7 @@ const rideOptions = [
     icon: <FaCarSide className="text-blue-500 text-3xl drop-shadow-md" />,
     baseFare: 24,
     tag: 'Standard',
+    tollTax: 50,  // Example toll tax for car
   },
   {
     key: 'bike',
@@ -38,10 +39,9 @@ const BookSection = () => {
   const { state } = useLocation();
   const { origin, destination } = state || {};
   const [distanceKm, setDistanceKm] = useState(0);
-   // Function to calculate if the ride crosses state borders (simplified)
-   const isCrossingStateBorders = () => {
-    // Example logic: if origin and destination are from different states, return true
-    // For real-world cases, you will need accurate geographic boundary checking or API integration
+
+  // Function to calculate if the ride crosses state borders (simplified)
+  const isCrossingStateBorders = () => {
     if (origin && destination) {
       // Placeholder for actual state crossing logic
       return origin.state !== destination.state;
@@ -56,26 +56,17 @@ const BookSection = () => {
         // Dynamically set base fare
         let baseFare = option.baseFare || 0;
 
+        // Apply specific fare logic for Auto Rickshaw
         if (option.key === 'auto') {
           baseFare = distanceKm < 14 ? 20 : 14;
         }
 
-
-        
-      .filter((option) => !option.condition || option.condition(distanceKm))
-      .map((option) => {
-        // Dynamically set base fare
-        let baseFare = option.baseFare || 0;
-
         // Apply toll tax for car if crossing state borders
         if (option.key === 'car' && isCrossingStateBorders()) {
-          baseFare += option.tollTax; // Add toll tax
+          baseFare += option.tollTax || 50; // Example toll tax value
         }
 
         const fare = parseFloat(distanceKm) * baseFare;
-
-
-        
 
         return (
           <div
