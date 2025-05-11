@@ -1,62 +1,3 @@
- HEAD
-import React from 'react';
-import { FaCar, FaMotorcycle, FaTaxi, FaShuttleVan } from 'react-icons/fa';
-
-const Booksection = () => {
-  const items = [
-    { title: 'Car', icon: <FaCar size={40} color="green" />, button: 'Book' },
-    { title: 'Bike', icon: <FaMotorcycle size={40} color="green" />, button: 'Book' },
-    { title: 'Auto', icon: <FaTaxi size={40} color="green" />, button: 'Book' },
-    { title: 'Riksha', icon: <FaShuttleVan size={40} color="green" />, button: 'Book' },
-  ];
-
-  return (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
-      <h1 style={{ textAlign: 'center', fontSize: '32px', marginTop: '80px', fontWeight: 'bold', color: 'green' }}>
-        Book Your Ride Now
-      </h1>
-      <p style={{ textAlign: 'center', fontSize: '25px', color: 'green' }}>Safar ka naya andaaz</p>
-
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', marginTop: '40px', flexWrap: 'wrap' }}>
-        {items.map((item, index) => (
-          <div
-            key={index}
-            style={{
-              border: '1px solid green',
-              padding: '20px',
-              borderRadius: '12px',
-              width: '220px',
-              textAlign: 'center',
-              boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              cursor: 'pointer',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.2)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-            }}
-          >
-            <div style={{ marginBottom: '15px' }}>{item.icon}</div>
-            <h2 style={{ fontSize: '20px', color: '#333' }}>{item.title}</h2>
-            <button
-              style={{
-                backgroundColor: 'green',
-                color: '#fff',
-                border: 'none',
-                padding: '10px 15px',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                width: '70px',
-                height: '40px',
-                marginTop: '15px',
-              }}
-            >
-              {item.button}
-
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import FreeMap from '../Components/FreeMap';
@@ -69,7 +10,7 @@ const rideOptions = [
     icon: <FaCarSide className="text-blue-500 text-3xl drop-shadow-md" />,
     baseFare: 24,
     tag: 'Standard',
-    tollTax: 50,  // Example toll tax for car
+    tollTax: 50,
   },
   {
     key: 'bike',
@@ -99,10 +40,8 @@ const BookSection = () => {
   const { origin, destination } = state || {};
   const [distanceKm, setDistanceKm] = useState(0);
 
-  // Function to calculate if the ride crosses state borders (simplified)
   const isCrossingStateBorders = () => {
     if (origin && destination) {
-      // Placeholder for actual state crossing logic
       return origin.state !== destination.state;
     }
     return false;
@@ -112,17 +51,14 @@ const BookSection = () => {
     rideOptions
       .filter((option) => !option.condition || option.condition(distanceKm))
       .map((option) => {
-        // Dynamically set base fare
         let baseFare = option.baseFare || 0;
 
-        // Apply specific fare logic for Auto Rickshaw
         if (option.key === 'auto') {
           baseFare = distanceKm < 14 ? 20 : 14;
         }
 
-        // Apply toll tax for car if crossing state borders
         if (option.key === 'car' && isCrossingStateBorders()) {
-          baseFare += option.tollTax || 50; // Example toll tax value
+          baseFare += option.tollTax || 50;
         }
 
         const fare = parseFloat(distanceKm) * baseFare;
@@ -154,18 +90,18 @@ const BookSection = () => {
               <span className="font-bold text-lg text-black">₹{fare.toFixed(0)}</span>
             </div>
 
-            <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-xl transition-all font-semibold mt-3">
+            <button className="w-full bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-xl transition-all font-semibold mt-3">
               Book {option.name}
             </button>
           </div>
         );
       });
 
- HEAD
-      <footer style={{ textAlign: 'center', marginTop: '120px', color: '#777' }}></footer>
-
   return (
     <div className="p-4 mt-20 flex flex-col items-center">
+      <h1 className="text-3xl font-bold text-green-700 mb-2">Book Your Ride Now</h1>
+      <p className="text-xl text-green-600 mb-6">Safar ka naya andaaz</p>
+
       {origin && destination && (
         <>
           <FreeMap origin={origin} destination={destination} onDistance={setDistanceKm} />
@@ -175,7 +111,8 @@ const BookSection = () => {
           </div>
         </>
       )}
- 82bfad07b8c75639eabe6b16b52ed9ac18810673
+
+      
     </div>
   );
 };
