@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+ HEAD
 import React from 'react';
 import { FaCar, FaMotorcycle, FaTaxi, FaShuttleVan } from 'react-icons/fa';
 
@@ -56,7 +56,7 @@ const Booksection = () => {
               }}
             >
               {item.button}
-=======
+
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import FreeMap from '../Components/FreeMap';
@@ -156,15 +156,14 @@ const BookSection = () => {
 
             <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-xl transition-all font-semibold mt-3">
               Book {option.name}
->>>>>>> 82bfad07b8c75639eabe6b16b52ed9ac18810673
             </button>
           </div>
         );
       });
 
-<<<<<<< HEAD
+ HEAD
       <footer style={{ textAlign: 'center', marginTop: '120px', color: '#777' }}></footer>
-=======
+
   return (
     <div className="p-4 mt-20 flex flex-col items-center">
       {origin && destination && (
@@ -176,7 +175,7 @@ const BookSection = () => {
           </div>
         </>
       )}
->>>>>>> 82bfad07b8c75639eabe6b16b52ed9ac18810673
+ 82bfad07b8c75639eabe6b16b52ed9ac18810673
     </div>
   );
 };
