@@ -6,7 +6,7 @@ import { FaCarSide, FaMotorcycle, FaBolt, FaShuttleVan, FaInfoCircle } from 'rea
 const rideOptions = [
   {
     key: 'car',
-    name: 'Cab Economy',
+    name: 'Cab',
     icon: <FaCarSide className="text-blue-500 text-3xl drop-shadow-md" />,
     baseFare: 15,
     tag: 'Standard',
