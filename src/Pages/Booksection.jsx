@@ -73,7 +73,7 @@ const BookSection = () => {
                 {option.icon}
                 <h2 className="font-semibold text-lg text-gray-800">{option.name}</h2>
               </div>
-              <span className="text-xs text-green-600">1 min away</span>
+              <span className="text-xs text-green-600">8 min away</span>
             </div>
 
             <div className="text-sm text-gray-400 mb-2">
