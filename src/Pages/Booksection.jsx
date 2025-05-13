@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import FreeMap from '../Components/FreeMap';
-import { FaCarSide, FaMotorcycle, FaBolt, FaShuttleVan } from 'react-icons/fa';
+import { FaCarSide, FaMotorcycle, FaBolt, FaShuttleVan, FaInfoCircle } from 'react-icons/fa';
 
 const rideOptions = [
   {
     key: 'car',
-    name: 'Cab Economy',
+    name: 'Cab',
     icon: <FaCarSide className="text-blue-500 text-3xl drop-shadow-md" />,
-    baseFare: 24,
+    baseFare: 15,
     tag: 'Standard',
-    tollTax: 50,
+    tollTax: 100,
   },
   {
     key: 'bike',
     name: 'Bike',
     icon: <FaMotorcycle className="text-green-500 text-3xl drop-shadow-md" />,
-    baseFare: 15,
+    baseFare: 13,
     tag: 'Fastest',
   },
   {
@@ -39,6 +39,8 @@ const BookSection = () => {
   const { state } = useLocation();
   const { origin, destination } = state || {};
   const [distanceKm, setDistanceKm] = useState(0);
+  const [selectedInfo, setSelectedInfo] = useState(null);
+  const infoRef = useRef(null);
 
   const isCrossingStateBorders = () => {
     if (origin && destination) {
@@ -47,18 +49,36 @@ const BookSection = () => {
     return false;
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (infoRef.current && !infoRef.current.contains(event.target)) {
+        setSelectedInfo(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const renderOptions = () =>
     rideOptions
       .filter((option) => !option.condition || option.condition(distanceKm))
       .map((option) => {
         let baseFare = option.baseFare || 0;
+        let surchargeNote = '';
 
         if (option.key === 'auto') {
           baseFare = distanceKm < 14 ? 20 : 14;
+          surchargeNote = distanceKm < 14 ? 'Short distance surcharge applied' : '';
         }
 
-        if (option.key === 'car' && isCrossingStateBorders()) {
-          baseFare += option.tollTax || 50;
+        if (option.key === 'car') {
+          baseFare = distanceKm < 10 ? 22 : 15;
+          if (isCrossingStateBorders()) {
+            baseFare += option.tollTax || 50;
+          }
         }
 
         const fare = parseFloat(distanceKm) * baseFare;
@@ -66,7 +86,7 @@ const BookSection = () => {
         return (
           <div
             key={option.key}
-            className="w-full max-w-xs p-4 bg-white rounded-2xl shadow-lg border border-gray-200 m-2"
+            className="w-full max-w-xs p-4 bg-white rounded-2xl shadow-lg border border-gray-200 m-2 relative"
           >
             <div className="flex justify-between mb-2">
               <div className="flex items-center gap-2">
@@ -85,9 +105,28 @@ const BookSection = () => {
               <span className="font-medium text-black">{Number(distanceKm).toFixed(2)} km</span>
             </div>
 
-            <div className="flex justify-between text-gray-600 text-sm mb-2">
+            <div className="flex justify-between items-center text-gray-600 text-sm mb-2 relative">
               <span>Estimated Fare:</span>
-              <span className="font-bold text-lg text-black">₹{fare.toFixed(0)}</span>
+              <div className="flex items-center gap-1">
+                <span className="font-bold text-lg text-black">₹{fare.toFixed(0)}</span>
+                <button onClick={() => setSelectedInfo(selectedInfo === option.key ? null : option.key)}>
+                  <FaInfoCircle className="text-gray-500 hover:text-gray-700 cursor-pointer" />
+                </button>
+              </div>
+
+              {selectedInfo === option.key && (
+                <div
+                  ref={infoRef}
+                  className="absolute z-10 left-6 bottom-full mb-2 bg-white text-gray-700 border border-gray-300 p-3 rounded-md text-xs shadow-lg w-[220px]"
+                >
+                  <div className="font-semibold text-sm text-black mb-1">Fare Breakdown</div>
+                  <div>Total Fare: ₹{fare.toFixed(0)}</div>
+                  {surchargeNote && <div>{surchargeNote}</div>}
+                  {option.key === 'car' && isCrossingStateBorders() && (
+                    <div>Toll Tax Applied: ₹{option.tollTax}</div>
+                  )}
+                </div>
+              )}
             </div>
 
             <button className="w-full bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-xl transition-all font-semibold mt-3">
@@ -111,8 +150,6 @@ const BookSection = () => {
           </div>
         </>
       )}
-
-      
     </div>
   );
 };
