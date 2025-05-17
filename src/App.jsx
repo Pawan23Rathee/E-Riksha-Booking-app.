@@ -13,6 +13,7 @@ import CarBooking from './Components/CarBooking';
 import Booksection from './Pages/Booksection';
 import ConfirmationPage from './Pages/ConfirmationPage';
 import SplashScreen from './Components/SplashScreen';
+import Footer from './Components/Footer';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -50,6 +51,7 @@ function App() {
             <Route path="/booksection" element={<Booksection />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />
           </Routes>
+          <Footer/>
         </>
       )}
     </Router>
