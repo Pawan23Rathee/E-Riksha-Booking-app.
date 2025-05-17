@@ -1,55 +1,81 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = ({ setIsLoggedIn }) => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  // Handle login logic (replace Firebase logic with your own logic)
-  const handleLogin = () => {
-    // Your login logic here (e.g., checking email/password)
-    if (email === 'user@example.com' && password === 'password123') {
-      console.log('User logged in');
-      setIsLoggedIn(true);  // Mark user as logged in
-      // Optionally, you can redirect user to another page after login
-    } else {
-      console.error('Error signing in');
-      setError('Invalid email or password. Please try again.');
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError('Email and password are required');
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || 'Login failed');
+        console.error('Login error:', data);
+      } else {
+        setIsLoggedIn(true);
+        alert('Login successful');
+        navigate('/profile');
+      }
+    } catch (err) {
+      console.error('Fetch error:', err);
+      setError('Server error');
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-3xl font-bold text-center text-green-600 mb-6">Login</h2>
+    <div className="min-h-screen bg-gray-100 pt-20 flex justify-center items-start p-4">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+        <h2 className="text-3xl font-bold mb-6 text-center text-green-700">Login</h2>
 
-        {error && <p className="text-red-500 text-center">{error}</p>}
+        {error && (
+          <p className="mb-4 text-red-600 font-semibold text-center">{error}</p>
+        )}
 
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold">Email</label>
+        <div className="mb-5">
+          <label htmlFor="email" className="block text-gray-800 font-semibold mb-2">
+            Email
+          </label>
           <input
+            id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition"
             placeholder="Enter your email"
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold">Password</label>
+        <div className="mb-6">
+          <label htmlFor="password" className="block text-gray-800 font-semibold mb-2">
+            Password
+          </label>
           <input
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition"
             placeholder="Enter your password"
           />
         </div>
 
         <button
           onClick={handleLogin}
-          className="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition text-lg font-semibold"
         >
           Login
         </button>

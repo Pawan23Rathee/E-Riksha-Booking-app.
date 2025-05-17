@@ -45,7 +45,8 @@ function App() {
             />
             <Route path="/map" element={<MapPage />} />
             <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/signup" element={<SignUpPage setIsLoggedIn={setIsLoggedIn} />} />
+
             <Route path="/contact" element={<ContactSection />} />
             <Route path="/car-booking" element={<CarBooking />} />
             <Route path="/booksection" element={<Booksection />} />

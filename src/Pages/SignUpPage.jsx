@@ -18,34 +18,47 @@ const SignUpPage = () => {
       return;
     }
 
-    // Mock signup logic (replace with your backend call or custom logic)
     try {
-      // Replace with your own backend call to create a new user
-      console.log('User data:', formData);
-      
-      // Simulate successful sign-up (you can replace this with a backend call)
-      alert("Account created successfully!");
-      navigate('/login');
+      const res = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || 'Signup failed');
+      } else {
+        alert("Account created successfully!");
+        navigate('/login');
+      }
     } catch (error) {
-      alert('Error creating account:', error.message);
+      console.error('Signup error:', error);
+      alert('Server error during signup');
     }
   };
 
-  
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100 p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
+    <div className="min-h-screen bg-gray-100 pt-20 flex justify-center items-start p-4">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+        <h2 className="text-3xl font-bold mb-6 text-center text-green-700">Sign Up</h2>
 
         {['name', 'email', 'phone', 'age', 'dob', 'password'].map((field) => (
-          <div className="mb-4" key={field}>
-            <label className="block text-gray-700 font-medium mb-1 capitalize">{field}</label>
+          <div className="mb-5" key={field}>
+            <label
+              htmlFor={field}
+              className="block text-gray-800 font-semibold mb-2 capitalize"
+            >
+              {field}
+            </label>
             <input
+              id={field}
               type={field === 'password' ? 'password' : field === 'dob' ? 'date' : 'text'}
               name={field}
               value={formData[field]}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-400"
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition"
               placeholder={`Enter your ${field}`}
             />
           </div>
@@ -53,19 +66,19 @@ const SignUpPage = () => {
 
         <button
           onClick={handleSignUp}
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition text-lg font-semibold"
         >
           Sign Up
         </button>
 
-        <p className="mt-4 text-center">
-          Already have an account?{" "}
-          <span
-            className="text-blue-600 cursor-pointer underline"
+        <p className="mt-6 text-center text-gray-700">
+          Already have an account?{' '}
+          <button
             onClick={() => navigate('/login')}
+            className="text-green-600 font-semibold underline hover:text-green-800"
           >
             Login
-          </span>
+          </button>
         </p>
       </div>
     </div>
