@@ -48,11 +48,17 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
           </div>
 
           <ul className={`List ${menuOpen ? 'active' : ''}`}>
-            <li onClick={() => setMenuOpen(false)}>
-              <NavLink to="/" className={({ isActive }) => (isActive ? 'active-link' : '')}>
+          <li onClick={() => setMenuOpen(false)}>
+              <NavLink to="/map" className={({ isActive }) => (isActive ? 'active-link' : '')}>
                 Home
               </NavLink>
             </li>
+
+            {/* <li onClick={() => setMenuOpen(false)}>
+              <NavLink to="/" className={({ isActive }) => (isActive ? 'active-link' : '')}>
+                map
+              </NavLink>
+            </li> */}
             <li onClick={() => setMenuOpen(false)}>
               <NavLink to="/history" className={({ isActive }) => (isActive ? 'active-link' : '')}>
                 History
@@ -63,12 +69,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                 Contact
               </NavLink>
             </li>
-            <li onClick={() => setMenuOpen(false)}>
-              <NavLink to="/map" className={({ isActive }) => (isActive ? 'active-link' : '')}>
-                Map
-              </NavLink>
-            </li>
-
+           
             <div className="coin-box" title="You have coins">
               <FaCoins className="coin-icon" />
               <span>10</span>

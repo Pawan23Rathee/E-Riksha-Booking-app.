@@ -20,7 +20,7 @@ function App() {
     <Router>
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<MapPage />} />
         <Route path="/profile" element={<ProtectedRoute isLoggedIn={isLoggedIn}><ProfilePage /></ProtectedRoute>} />
         <Route path="/points" element={<ProtectedRoute isLoggedIn={isLoggedIn}><PointsPage /></ProtectedRoute>} />
         <Route path="/map" element={<MapPage />} />
