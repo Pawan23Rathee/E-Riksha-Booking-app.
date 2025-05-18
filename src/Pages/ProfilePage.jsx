@@ -3,8 +3,11 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 
 const ProfilePage = () => {
+  // State for login status
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // Toggle between login/signup form
   const [isSignup, setIsSignup] = useState(false);
+  // User details
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -15,50 +18,33 @@ const ProfilePage = () => {
     password: "",
   });
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    age: "",
-    dob: "",
-    photo: "",
-    password: "",
-  });
+  // Handle form input change
+  const handleChange = (field, value) => {
+    setUser(prev => ({ ...prev, [field]: value }));
+  };
 
+  // Handle login logic
   const handleLogin = () => {
-    if (formData.email && formData.password) {
-      setUser({
-        name: "John Doe",
-        email: formData.email,
-        phone: "123-456-7890",
-        age: "25",
-        dob: "1999-01-01",
-        photo: "https://i.pravatar.cc/150?img=3", // Placeholder image
-        password: formData.password,
-      });
-      setIsLoggedIn(true);
-    } else {
+    if (!user.email || !user.password) {
       alert("Please enter email and password");
+      return;
     }
+    // Simulate login - here you should call your backend API
+    setIsLoggedIn(true);
   };
 
+  // Handle signup logic
   const handleSignup = () => {
-    if (
-      formData.name &&
-      formData.email &&
-      formData.phone &&
-      formData.age &&
-      formData.dob &&
-      formData.photo &&
-      formData.password
-    ) {
-      setUser(formData);
-      setIsLoggedIn(true);
-    } else {
+    const { name, email, phone, age, dob, photo, password } = user;
+    if (!name || !email || !phone || !age || !dob || !photo || !password) {
       alert("Please fill in all fields");
+      return;
     }
+    // Simulate signup - here you should call your backend API
+    setIsLoggedIn(true);
   };
 
+  // Handle logout
   const handleLogout = () => {
     setUser({
       name: "",
@@ -69,27 +55,19 @@ const ProfilePage = () => {
       photo: "",
       password: "",
     });
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      age: "",
-      dob: "",
-      photo: "",
-      password: "",
-    });
     setIsLoggedIn(false);
+    setIsSignup(false);
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+    <div className="flex justify-center items-center h-300px bg-gray-100 p-4">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6 h-300">
         <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">Profile</h2>
 
         {isLoggedIn ? (
           <div className="text-center">
             <img
-              src={user.photo}
+              src={user.photo || "https://i.pravatar.cc/150?img=3"}
               alt="Profile"
               className="w-24 h-24 rounded-full mx-auto mb-4"
             />
@@ -113,16 +91,16 @@ const ProfilePage = () => {
 
             {isSignup && (
               <>
-                <Input label="Name" value={formData.name} onChange={(val) => setFormData({ ...formData, name: val })} />
-                <Input label="Phone" value={formData.phone} onChange={(val) => setFormData({ ...formData, phone: val })} />
-                <Input label="Age" type="number" value={formData.age} onChange={(val) => setFormData({ ...formData, age: val })} />
-                <Input label="Date of Birth" type="date" value={formData.dob} onChange={(val) => setFormData({ ...formData, dob: val })} />
-                <Input label="Profile Photo URL" value={formData.photo} onChange={(val) => setFormData({ ...formData, photo: val })} />
+                <Input label="Name" value={user.name} onChange={(val) => handleChange("name", val)} />
+                <Input label="Phone" value={user.phone} onChange={(val) => handleChange("phone", val)} />
+                <Input label="Age" type="number" value={user.age} onChange={(val) => handleChange("age", val)} />
+                <Input label="Date of Birth" type="date" value={user.dob} onChange={(val) => handleChange("dob", val)} />
+                <Input label="Profile Photo URL" value={user.photo} onChange={(val) => handleChange("photo", val)} />
               </>
             )}
 
-            <Input label="Email" type="email" value={formData.email} onChange={(val) => setFormData({ ...formData, email: val })} />
-            <Input label="Password" type="password" value={formData.password} onChange={(val) => setFormData({ ...formData, password: val })} />
+            <Input label="Email" type="email" value={user.email} onChange={(val) => handleChange("email", val)} />
+            <Input label="Password" type="password" value={user.password} onChange={(val) => handleChange("password", val)} />
 
             <button
               onClick={isSignup ? handleSignup : handleLogin}
