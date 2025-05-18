@@ -12,6 +12,9 @@ import ContactSection from './Pages/ContactSection';
 import CarBooking from './Components/CarBooking';
 import Booksection from './Pages/Booksection';
 import ConfirmationPage from './Pages/ConfirmationPage'; // ✅ Import here
+import Bookinghistory from './Pages/bookinghistory';
+
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,8 +32,10 @@ function App() {
         <Route path="/contact" element={<ContactSection />} />
         <Route path="/car-booking" element={<CarBooking />} />
         <Route path="/booksection" element={<Booksection />} />
-
         <Route path="/confirmation" element={<ConfirmationPage />} />
+        <Route path="/booking" element={<Bookinghistory/>}/>
+        
+      
       </Routes>
     </Router>
   );
