@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const ProfilePage = ({ user, setUser }) => {
   const [formData, setFormData] = useState({
     name: user?.name || '',
     phone: user?.phone || '',
     age: user?.age || '',
-    dob: user?.dob || '',
+    dob: user?.dob || ''
   });
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
 
   const handleChange = (e) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }));
   };
 
@@ -21,90 +20,62 @@ const ProfilePage = ({ user, setUser }) => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`http://localhost:3000/api/auth/profile/${user.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || 'Update failed');
-        setMessage('');
-      } else {
-        setUser(data.user);
-        setMessage('Profile updated successfully!');
-        setError('');
-      }
+      const response = await axios.put(`http://localhost:3000/api/auth/profile/${user.id}`, formData);
+      setUser(response.data.user);
+      alert('Profile updated successfully!');
     } catch (err) {
       console.error('Update error:', err);
-      setError('Server error');
-      setMessage('');
+      alert('Failed to update profile');
     }
   };
 
+  if (!user) {
+    return <div className="text-center mt-10 text-lg">Loading...</div>;
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 pt-20">
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md border border-gray-300">
-        <h2 className="text-2xl font-bold mb-4 text-center text-green-700">Your Profile</h2>
-
-        {message && <p className="text-green-600 text-center mb-2">{message}</p>}
-        {error && <p className="text-red-600 text-center mb-2">{error}</p>}
-
-        <form onSubmit={handleUpdate}>
-          <div className="mb-4">
-            <label className="block font-medium text-gray-700 mb-1">Name</label>
-            <input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
-              type="text"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block font-medium text-gray-700 mb-1">Phone</label>
-            <input
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
-              type="text"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block font-medium text-gray-700 mb-1">Age</label>
-            <input
-              name="age"
-              value={formData.age}
-              onChange={handleChange}
-              className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
-              type="number"
-            />
-          </div>
-
-          <div className="mb-6">
-            <label className="block font-medium text-gray-700 mb-1">Date of Birth</label>
-            <input
-              name="dob"
-              value={formData.dob}
-              onChange={handleChange}
-              className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
-              type="date"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition"
-          >
-            Update Profile
-          </button>
-        </form>
-      </div>
+    <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-lg mt-40">
+      <h2 className="text-2xl font-bold mb-4">Profile Page</h2>
+      <form onSubmit={handleUpdate} className="space-y-4">
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          value={formData.name}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded"
+        />
+        <input
+          type="text"
+          name="phone"
+          placeholder="Phone"
+          value={formData.phone}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded"
+        />
+        <input
+          type="number"
+          name="age"
+          placeholder="Age"
+          value={formData.age}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded"
+        />
+        <input
+          type="text"
+          name="dob"
+          placeholder="Date of Birth"
+          value={formData.dob}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded"
+        />
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Update
+        </button>
+      </form>
     </div>
   );
 };

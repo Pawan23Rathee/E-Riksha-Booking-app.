@@ -28,7 +28,7 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
         setError(data.message || 'Login failed');
         console.error('Login error:', data);
       } else {
-        setUser(data.user);       // Save user details globally
+        setUser(data.user);
         setIsLoggedIn(true);
         alert('Login successful');
         navigate('/profile');
@@ -39,15 +39,12 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
     }
   };
 
-  return (      
+  return (
     <div className="min-h-screen bg-gray-100 pt-20 flex justify-center items-start p-4 mt-20">
-<div className="w-full max-w-md bg-white rounded-lg shadow-xl ring-1 ring-gray-200 p-8">
-
+      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
         <h2 className="text-3xl font-bold mb-6 text-center text-green-700">Login</h2>
 
-        {error && (
-          <p className="mb-4 text-red-600 font-semibold text-center">{error}</p>
-        )}
+        {error && <p className="mb-4 text-red-600 font-semibold text-center">{error}</p>}
 
         <form onSubmit={handleLogin}>
           <div className="mb-5">
@@ -59,7 +56,7 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
               placeholder="Enter your email"
             />
           </div>
@@ -73,14 +70,14 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
               placeholder="Enter your password"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition text-lg font-semibold"
+            className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 text-lg font-semibold"
           >
             Login
           </button>

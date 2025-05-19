@@ -90,7 +90,14 @@ router.put('/profile/:id', async (req, res) => {
 
     res.status(200).json({
       message: 'Profile updated successfully',
-      user: updatedUser,
+      user: {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phone: updatedUser.phone,
+        age: updatedUser.age,
+        dob: updatedUser.dob
+      },
     });
   } catch (err) {
     console.error('Profile update error:', err.message);

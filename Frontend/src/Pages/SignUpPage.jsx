@@ -1,22 +1,29 @@
+// SignUpPage.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const SignUpPage = () => {
+const SignUpPage = ({ setIsLoggedIn, setUser }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '', email: '', phone: '', age: '', dob: '', password: ''
+    name: '',
+    email: '',
+    phone: '',
+    age: '',
+    dob: '',
+    password: '',
   });
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSignUp = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     const { name, email, phone, age, dob, password } = formData;
+
     if (!name || !email || !phone || !age || !dob || !password) {
-      alert("Please fill all fields");
+      setError('All fields are required');
       return;
     }
 
@@ -24,44 +31,45 @@ const SignUpPage = () => {
       const res = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message || 'Signup failed');
+        setError(data.message || 'Registration failed');
       } else {
-        alert("Account created successfully!");
-        navigate('/login');
+        setUser(data.user);
+        setIsLoggedIn(true);
+        alert('Signup successful');
+        navigate('/profile');
       }
-    } catch (error) {
-      console.error('Signup error:', error);
-      alert('Server error during signup');
+    } catch (err) {
+      console.error('Signup error:', err);
+      setError('Server error');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 pt-20 flex justify-center items-start p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+    <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4 mt-20">
+      <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8">
         <h2 className="text-3xl font-bold mb-6 text-center text-green-700">Sign Up</h2>
 
-        <form onSubmit={handleSignUp}>
+        {error && <p className="mb-4 text-red-600 font-semibold text-center">{error}</p>}
+
+        <form onSubmit={handleSubmit}>
           {['name', 'email', 'phone', 'age', 'dob', 'password'].map((field) => (
-            <div className="mb-5" key={field}>
-              <label
-                htmlFor={field}
-                className="block text-gray-800 font-semibold mb-2 capitalize"
-              >
-                {field}
+            <div className="mb-4" key={field}>
+              <label htmlFor={field} className="block text-gray-800 font-semibold mb-2">
+                {field.charAt(0).toUpperCase() + field.slice(1)}
               </label>
               <input
-                id={field}
-                type={field === 'password' ? 'password' : field === 'dob' ? 'date' : 'text'}
+                type={field === 'password' ? 'password' : field === 'email' ? 'email' : 'text'}
                 name={field}
+                id={field}
                 value={formData[field]}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder={`Enter your ${field}`}
               />
             </div>
@@ -69,21 +77,11 @@ const SignUpPage = () => {
 
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition text-lg font-semibold"
+            className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 text-lg font-semibold"
           >
             Sign Up
           </button>
         </form>
-
-        <p className="mt-6 text-center text-gray-700">
-          Already have an account?{' '}
-          <button
-            onClick={() => navigate('/login')}
-            className="text-green-600 font-semibold underline hover:text-green-800"
-          >
-            Login
-          </button>
-        </p>
       </div>
     </div>
   );
