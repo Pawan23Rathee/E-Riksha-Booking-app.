@@ -1,23 +1,27 @@
-require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const connectDB = require('./config/db');
+const authRoutes = require('./routes/auth');
+require('dotenv').config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Connect to DB
+// Connect to MongoDB
 connectDB();
 
-// Middleware to parse JSON body
+// Enable CORS for frontend origin
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true, // if you plan to use cookies/auth, otherwise optional
+}));
+
+// Middleware to parse JSON
 app.use(express.json());
 
-// Simple test route
-app.get('/', (req, res) => {
-  res.send('API is running...');
-});
+// Routes
+app.use('/api/auth', authRoutes);
 
-// Your auth routes here (login, register, profile update)...
-
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
