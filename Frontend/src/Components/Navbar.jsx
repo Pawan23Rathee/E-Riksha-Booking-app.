@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import { FaCoins, FaBars, FaTimes } from 'react-icons/fa';
 
@@ -8,10 +8,13 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const savedPic = localStorage.getItem('profilePic');
-    if (savedPic) {
-      setProfilePic(savedPic);
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      const parsedUser = JSON.parse(savedUser);
+      setProfilePic(parsedUser?.profilePic || null);
     }
   }, []);
 
@@ -20,19 +23,9 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
     setMenuOpen(false);
     setDropdownOpen(false);
     localStorage.removeItem('profilePic');
+    localStorage.removeItem('user'); // clear user data too
     setProfilePic(null);
-  };
-
-  const handleProfilePicUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePic(reader.result);
-        localStorage.setItem('profilePic', reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    navigate('/login'); // redirect after logout
   };
 
   return (
@@ -48,28 +41,24 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
           </div>
 
           <ul className={`List ${menuOpen ? 'active' : ''}`}>
-          <li onClick={() => setMenuOpen(false)}>
+            <li onClick={() => setMenuOpen(false)}>
               <NavLink to="/map" className={({ isActive }) => (isActive ? 'active-link' : '')}>
                 Home
               </NavLink>
             </li>
 
-            {/* <li onClick={() => setMenuOpen(false)}>
-              <NavLink to="/" className={({ isActive }) => (isActive ? 'active-link' : '')}>
-                map
-              </NavLink>
-            </li> */}
             <li onClick={() => setMenuOpen(false)}>
               <NavLink to="/history" className={({ isActive }) => (isActive ? 'active-link' : '')}>
                 History
               </NavLink>
             </li>
+
             <li onClick={() => setMenuOpen(false)}>
               <NavLink to="/contact" className={({ isActive }) => (isActive ? 'active-link' : '')}>
                 Contact
               </NavLink>
             </li>
-           
+
             <div className="coin-box" title="You have coins">
               <FaCoins className="coin-icon" />
               <span>10</span>
@@ -77,20 +66,24 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
 
             {isLoggedIn ? (
               <div className="profile" onClick={() => setDropdownOpen(!dropdownOpen)}>
-                <img
-                  className="profile-img"
-                  src={profilePic || "/default-profile.png"}
-                  alt="Profile"
-                  onClick={() => document.getElementById('profilePicInput').click()}
-                />
-                {dropdownOpen && (
-                  <div className="dropdown-menu">
-                    <NavLink to="/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>Profile</NavLink>
-                    <NavLink to="/settings" className="dropdown-item" onClick={() => setDropdownOpen(false)}>Settings</NavLink>
-                    <button onClick={handleLogout} className="dropdown-item">Logout</button>
-                  </div>
-                )}
-              </div>
+  <img
+    className="profile-img"
+    src={profilePic || "/default-profile.png"}
+    alt="Profile"
+  />
+  {dropdownOpen && (
+    <div className="dropdown-menu">
+      <NavLink to="/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>
+        Profile
+      </NavLink>
+      <NavLink to="/settings" className="dropdown-item" onClick={() => setDropdownOpen(false)}>
+        Settings
+      </NavLink>
+      <button onClick={handleLogout} className="dropdown-item">Logout</button>
+    </div>
+  )}
+</div>
+
             ) : (
               <div className="auth-buttons">
                 <NavLink to="/login" className="login-link" onClick={() => setMenuOpen(false)}>Login</NavLink>
@@ -100,17 +93,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
           </ul>
         </div>
       </nav>
-
-      {isLoggedIn && (
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleProfilePicUpload}
-          style={{ display: 'none' }}
-          id="profilePicInput"
-        />
-      )}
-    </>
+    </>        
   );
 };
 
