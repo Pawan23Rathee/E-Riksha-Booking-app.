@@ -13,17 +13,15 @@ connectDB();
 // Enable CORS for frontend origin
 app.use(cors({
   origin: 'http://localhost:5173',
-  credentials: true, // required if sending cookies or auth headers
+  credentials: true, // if you plan to use cookies/auth, otherwise optional
 }));
 
-// Middleware to parse JSON and form data
+// Middleware to parse JSON
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // supports multipart/form-data if needed
 
 // Routes
 app.use('/api/auth', authRoutes);
 
-// Start server
 app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
